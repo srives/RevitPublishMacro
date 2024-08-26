@@ -3,6 +3,10 @@
  * User: GTP Innovate 2024
  * Date: 8/24/2024
  * Time: 3:00 PM
+ *
+ *         Before you run this Macro:
+ *               1. You must log into gtpstratus.com, and switch to the company you want to publish to
+ *               2. In Revit, go to Add Ins, External Tools, Stratus Set Project Info
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
