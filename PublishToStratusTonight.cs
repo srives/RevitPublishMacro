@@ -6,7 +6,7 @@
  *
  *         Before you run this Macro, you must LOG IN to Stratus and Revit-Stratus
  *               1. You must log into gtpstratus.com, and switch to the company you want to publish to
- *               2. In Revit, go to Add Ins, External Tools, Stratus Set Project Info (this will prompt the login)
+ *               2. In Revit, go to Add Ins, External Tools, Stratus Set Project Info (this will prompt the login, just cancel out of the dialog)
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
