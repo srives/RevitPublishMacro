@@ -12,7 +12,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;            // We had to EXPLICITLY right click on "References" to get access to this code (Timer lives here)
+using System.Windows.Forms;            // In SharpDevelop, click on "References" and add this DLL. Timer code lives in here
 using System.Runtime.InteropServices;  // We need this to keep our computer from going into sleep mode 
 
 namespace Utilities
@@ -69,7 +69,7 @@ namespace Utilities
 
          if (doIt == TaskDialogResult.Yes)
          {
-             SetThreadExecutionState(0x80000001); // 80,000,001 --> Tell Windows to Stay Awake (may let monitor sleep, but that's okay);
+             SetThreadExecutionState(0x80000043); // 80,000,043 --> Tell Windows to Stay Awake 
              _scheduler.Start();                  // Start the scheduler, which will check to see when it is the _hourToPublish (see SchedulerCallback)
          }
      }
@@ -103,7 +103,7 @@ namespace Utilities
         {
            //Look in C:\ProgramData\Autodesk\ApplicationPlugins\Gtpx.ModelSync.Addin.Revit2021.bundle\Contents\Gtpx.ModelSync.Addin.Revit2021.addin					
            var addinId = Autodesk.Revit.UI.RevitCommandId.LookupCommandId("a584d14f-3ba0-4f78-8719-7640168260ec");
-           uiapp.PostCommand(addinId);
+           uiapp.PostCommand(addinId); // check your log file when done. This can fail if you are not logged into your Stratus company
         }
         catch (Exception ex)
         {
