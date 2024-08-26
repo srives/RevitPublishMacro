@@ -4,7 +4,7 @@
  * Date: 8/24/2024
  * Time: 3:00 PM
  *
- *        A macro to publish your model to Stratus on a schedule, will Save and Sync before publish
+ *        A macro to publish your model to Stratus on a schedule, will Sync and Save before publish
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
