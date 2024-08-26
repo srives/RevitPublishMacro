@@ -48,31 +48,31 @@ namespace Utilities
       /// <summary>
       /// MACRO ENTRY POINT -- Revit calls into here
       /// </summary>
-		  public void PublishToStratusTonight()
-		  {					
-		     // If we are already running a scheduler, then ask them if they want to cancel it.
-		 	   if (_scheduler.Enabled)
+      public void PublishToStratusTonight()
+      {		
+         // If we are already running a scheduler, then ask them if they want to cancel it.
+         if (_scheduler.Enabled)
          {
             var select = TaskDialog.Show("Already Scheduled to Publish", "Would you like to cancel the scheduled publis?", TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);            
-	          if (select == TaskDialogResult.Yes)
-	          {
-                SetThreadExecutionState(1); // Turn off Stay Awake
+            if (select == TaskDialogResult.Yes)
+            {
+               SetThreadExecutionState(1); // Turn off Stay Awake
                _scheduler.Stop();
-	          }
+            }
             return;
          }
 
-			   // Ask them if they really want to schedule a silent publish (show them YES and NO buttons)
+         // Ask them if they really want to schedule a silent publish (show them YES and NO buttons)
          var doIt = TaskDialog.Show("Continue?", 
                                     "Would you like to schedule a silent publish for military hour " + _hourToPublish + "?",
-                                    TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
-			
-	       if (doIt == TaskDialogResult.Yes)
-	       {
-            SetThreadExecutionState(0x80000001); // 80,000,001 --> Tell Windows to Stay Awake (may let monitor sleep, but that's okay);
-            _scheduler.Start();                  // Start the scheduler, which will check to see when it is the _hourToPublish (see SchedulerCallback)
+                                     TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
+
+         if (doIt == TaskDialogResult.Yes)
+         {
+             SetThreadExecutionState(0x80000001); // 80,000,001 --> Tell Windows to Stay Awake (may let monitor sleep, but that's okay);
+             _scheduler.Start();                  // Start the scheduler, which will check to see when it is the _hourToPublish (see SchedulerCallback)
          }
-		  }
+     }
 		
      /// -------------------------------------------------------------
      /// This is the Timer function that gets called once ever so often
