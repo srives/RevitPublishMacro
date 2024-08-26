@@ -83,7 +83,36 @@ namespace Utilities
              _scheduler.Start();                  // Start the scheduler, which will check to see when it is the _hourToPublish (see SchedulerCallback)
          }
      }
-		
+
+     /// -------------------------------------------------------------
+     /// If you publish late at night, first make sure nobody has changes
+     /// you haven't merged into your model
+     /// -------------------------------------------------------------
+     private void SyncAndSave()
+     {
+       try
+       {
+         Document doc = this.ActiveUIDocument.Document;
+         SynchronizeWithCentralOptions syncOptions = new SynchronizeWithCentralOptions();
+         RelinquishOptions relinquishOptions = new RelinquishOptions(true);
+         relinquishOptions.StandardWorksets = true;
+         relinquishOptions.ViewWorksets = true;
+         relinquishOptions.FamilyWorksets = true;
+         relinquishOptions.UserWorksets = true;
+         relinquishOptions.CheckedOutElements = true;
+
+         TransactWithCentralOptions transactOptions = new TransactWithCentralOptions();
+         syncOptions.SetRelinquishOptions(relinquishOptions);
+
+         doc.SynchronizeWithCentral(transactOptions, syncOptions);
+         doc.Save();
+       }
+       catch (Exception ex)
+       {
+          TaskDialog.Show("Error", "An error occurred: " + ex.Message);
+       }
+     } 
+
      /// -------------------------------------------------------------
      /// This is the Timer function that gets called once ever so often
      /// and checks to see if we have hit the desired hour of the day
@@ -93,7 +122,8 @@ namespace Utilities
      {			
         if (_scheduler.Enabled && DateTime.Now.Hour == _hourToPublish) // 22 = 10pm military time
         {
-          _scheduler.Stop();				
+          _scheduler.Stop();
+          SyncAndSave();
           RunSilentPublishNow();
           SetThreadExecutionState(1); // no longer try to keep the computer from sleeping
         }
