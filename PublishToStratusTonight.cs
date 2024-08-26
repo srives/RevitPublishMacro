@@ -4,9 +4,10 @@
  * Date: 8/24/2024
  * Time: 3:00 PM
  *
- *         Before you run this Macro, you must LOG IN to Stratus and Revit-Stratus
+ *         Before you run this Macro, you must LOG IN to Stratus and Revit-Stratus (both places).
  *               1. You must log into gtpstratus.com, and switch to the company you want to publish to
- *               2. In Revit, go to Add Ins, External Tools, Stratus Set Project Info (this will prompt the login, just cancel out of the dialog)
+ *               2. In Revit, go to Add Ins, Help, Sign-out
+ *               3. In Revit, go to Add Ins, External Tools, Stratus Set Project Info (this will prompt the login, after that just cancel out of the dialog)
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
@@ -57,7 +58,7 @@ namespace Utilities
          // If we are already running a scheduler, then ask them if they want to cancel it.
          if (_scheduler.Enabled)
          {
-            var select = TaskDialog.Show("Already Scheduled to Publish", "Would you like to cancel the scheduled publis?", TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);            
+            var select = TaskDialog.Show("Already Scheduled to Publish", "Would you like to cancel the scheduled publish?", TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);            
             if (select == TaskDialogResult.Yes)
             {
                SetThreadExecutionState(1); // Turn off Stay Awake
