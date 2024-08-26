@@ -69,6 +69,10 @@ namespace Utilities
 
          // Ask them if they really want to schedule a silent publish (show them YES and NO buttons)
          var doIt = TaskDialog.Show("Continue?", 
+				    "Before you run this Macro, you must LOG IN to Stratus and Revit-Stratus (both places).\r\n" +
+                                    "    1. You must log into gtpstratus.com, and switch to the company you want to publish to\r\n" +
+                                    "    2. In Revit, go to Add Ins, Help, Sign-out\r\n" +
+                                    "    3. In Revit, go to Add Ins, External Tools, Stratus Set Project Info (this will prompt the login, after that just cancel out of the dialog)\r\n\r\n" +
                                     "Would you like to schedule a silent publish for military hour " + _hourToPublish + "?",
                                      TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
 
