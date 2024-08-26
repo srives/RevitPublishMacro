@@ -85,6 +85,7 @@ namespace Utilities
         {
           _scheduler.Stop();				
           RunSilentPublishNow();
+          SetThreadExecutionState(1); // no longer try to keep the computer from sleeping
         }
      }
 
