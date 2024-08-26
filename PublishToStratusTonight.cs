@@ -6,7 +6,6 @@
  *
  *        A macro to publish your model to Stratus on a schedule, will Sync and Save before publish
  * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
 using Autodesk.Revit.UI;
