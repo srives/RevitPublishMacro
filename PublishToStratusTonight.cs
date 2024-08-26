@@ -58,7 +58,8 @@ namespace Utilities
          // If we are already running a scheduler, then ask them if they want to cancel it.
          if (_scheduler.Enabled)
          {
-            var select = TaskDialog.Show("Already Scheduled to Publish", "Would you like to cancel the scheduled publish?", TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);            
+            var select = TaskDialog.Show("Already Scheduled to Publish", "Would you like to cancel the publish scheduled for military hour " + _hourToPublish + "?", 
+					 TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
             if (select == TaskDialogResult.Yes)
             {
                SetThreadExecutionState(1); // Turn off Stay Awake
