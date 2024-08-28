@@ -158,6 +158,7 @@ namespace Utilities
           _scheduler.Stop();
           SyncAndSave();
           RunSilentPublishNow();
+          // CheckLogsForSilentPublish(pubTime);
           SetThreadExecutionState(1); // no longer try to keep the computer from sleeping
         }
      }
