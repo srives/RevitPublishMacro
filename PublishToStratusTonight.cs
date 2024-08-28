@@ -21,7 +21,10 @@ namespace Utilities
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     [Autodesk.Revit.DB.Macros.AddInId("0962CE0E-1BAE-4461-8737-E4F3F4451ED5")]
     public partial class ThisApplication
-    {			
+    {
+      [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)] // Turn on/off Windows Sleep
+      static extern uint SetThreadExecutionState(uint esFlags); 
+	    
       private int _hourToPublish = 22; // 22 = 10pm military time
       private Timer _scheduler;
       private void Module_Startup(object sender, EventArgs e)
@@ -43,8 +46,21 @@ namespace Utilities
       }
       #endregion
 
-      [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)] // Turn on/off Windows Sleep
-      static extern uint SetThreadExecutionState(uint esFlags);            
+      /// -------------------------------------------------------------
+      /// MACRO ENTRY POINT -- show all the custom data in all your parts
+      /// -------------------------------------------------------------	    
+      public void ShowAllPartCustomData()
+      {
+        Document doc = ActiveUIDocument.Document;
+        var conf = FabricationConfiguration.GetFabricationConfiguration(doc);
+        var confCD = conf.GetAllPartCustomData();
+        string CDList = "";
+        foreach(int cdint in confCD)            
+        {
+           CDList = CDList +"ID "+ cdint.ToString() +": "+ conf.GetPartCustomDataName(cdint).ToString()+"\n";
+        }
+        TaskDialog.Show("Custom Data", CDList);
+     }
 		
       /// <summary>
       /// MACRO ENTRY POINT -- Revit calls into here
