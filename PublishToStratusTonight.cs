@@ -46,9 +46,27 @@ namespace Utilities
       }
       #endregion
 
+      /// <summary>
+      /// -------------------------------------------------------------
+      /// MACRO ENTRY POINT -- search logs for last publish
+      /// -------------------------------------------------------------
+      /// </summary>
+      public void ShowLastSuccessfulSilentPublish()
+      {
+      	for (int i = 0; i < 20; i++)
+        {
+           if (CheckLogsForSilentPublish(DateTime.MinValue, true, i, false))
+           {
+              break;
+           }     		
+     	}
+      }
+      
+      /// <summary>
       /// -------------------------------------------------------------
       /// MACRO ENTRY POINT -- show all the custom data in all your parts
       /// -------------------------------------------------------------	    
+      /// </summary>
       public void ShowAllPartCustomData()
       {
         Document doc = ActiveUIDocument.Document;
@@ -63,7 +81,9 @@ namespace Utilities
      }
 		
       /// <summary>
+      /// -------------------------------------------------------------
       /// MACRO ENTRY POINT -- Revit calls into here
+      /// -------------------------------------------------------------
       /// </summary>
       public void PublishToStratusTonight()
       {		
@@ -105,7 +125,7 @@ namespace Utilities
      /// If you publish late at night, first make sure nobody has changes
      /// you haven't merged into your model
      /// -------------------------------------------------------------
-     public void SyncAndSave()
+     private void SyncAndSave()
      {
        try
        {
@@ -142,6 +162,75 @@ namespace Utilities
         }
      }
 
+     // -------------------------------------------------------------
+     // Walk through the latest log for the current model
+     // -------------------------------------------------------------
+     private bool CheckLogsForSilentPublish(DateTime pubTime, bool verbose=false, int ct=0, bool showCrashError=true)
+     {
+       var msgBoxShown = false;
+       try
+       {
+         var silent = false;
+     	 var errorMsg = string.Empty;
+     	 var silentLine = string.Empty;
+     	 
+         Document doc = this.ActiveUIDocument.Document;
+         var name = doc.Title;
+         
+         var log = Environment.GetEnvironmentVariable("APPDATA") + "\\GTP Software Inc\\STRATUS Logs\\Revit\\Log - " + name + " - Extract.txt";
+         if (ct > 0)
+         {
+           log += "." + ct;
+         }
+         if (System.IO.File.Exists(log))
+         {
+            var lines = System.IO.File.ReadAllLines(log);
+            if (lines != null && lines.Length > 0)
+            {
+               var rev = lines.Reverse();
+               foreach(var line in rev)
+               {
+               	  var dt = GetDateTime(line, pubTime);
+               	  if (dt < pubTime)
+               	  {
+               	     break;
+               	  }
+                  if (line.Contains("IN SILENT MODE"))
+                  {
+                  	 silentLine = line;
+                     silent = true;
+               	     break;
+                  }
+                  if (line.Contains("ERROR"))
+                  {
+                  	 errorMsg += line + "\r\n";
+                  }
+               }
+            }
+         }
+         if (silent == true && !string.IsNullOrEmpty(errorMsg))
+         {
+            msgBoxShown = true;
+            errorMsg += "\r\n" + log;
+         	MessageBox.Show(errorMsg, "Email this: " + name);
+         }
+         else if (silent == true && verbose)
+         {
+            msgBoxShown = true;
+            silentLine += "\r\n\r\n" + log;
+         	MessageBox.Show(silentLine, "Silent Publish Success: " + name);
+         }
+       }
+       catch (Exception ex)
+       {
+       	 if (showCrashError)
+       	 {
+       	   MessageBox.Show(ex.Message, "Failed");
+       	 }
+       }
+       return msgBoxShown;
+     }
+	    
      /// -------------------------------------------------------------
      /// This is the function that does the actual Silent Publish 
      /// command. This will get called by the scheduler at the right
