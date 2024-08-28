@@ -145,7 +145,7 @@ namespace Utilities
           TaskDialog.Show("Error", "An error occurred: " + ex.Message);
        }
      } 
-
+	    
      /// -------------------------------------------------------------
      /// This is the Timer function that gets called once ever so often
      /// and checks to see if we have hit the desired hour of the day
@@ -162,7 +162,25 @@ namespace Utilities
           SetThreadExecutionState(1); // no longer try to keep the computer from sleeping
         }
      }
-
+	    
+     private DateTime GetDateTime(string line, DateTime def)
+     {
+     	if (string.IsNullOrEmpty(line))
+     	{
+           return def;
+     	}
+     	var parts = line.Split('[');
+     	if (parts.Length > 0)
+     	{
+           DateTime res;
+           if (DateTime.TryParse(parts[0], out res))
+           {
+             return res;
+           }
+     	}
+     	return def;
+     }
+	    
      // -------------------------------------------------------------
      // Walk through the latest log for the current model
      // -------------------------------------------------------------
