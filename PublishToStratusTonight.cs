@@ -143,9 +143,9 @@ namespace Utilities
             {
                restartRevit = true;
             }
-	        else
-	        {
-	            var setting = TaskDialog.Show("Change Settings.json?", "The silent publish may fail by presenting you" + Environment.NewLine +
+            else
+            {
+                var setting = TaskDialog.Show("Change Settings.json?", "The silent publish may fail by presenting you" + Environment.NewLine +
 						  "with dialog questions for which you won't be around to answer." + Environment.NewLine + Environment.NewLine +
 						  "To disable the Workset Checkout dialog, modify the following Stratus settings file:" + Environment.NewLine +
 						   Environment.NewLine +_settingsFileName + Environment.NewLine + Environment.NewLine +
@@ -156,18 +156,18 @@ namespace Utilities
 						   "Would you like this macro to modify your Settings.json file for you?",
 						   TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
 	
-	            if (setting == TaskDialogResult.Yes && ForceCheckoutWorksets(true))
-		        {
-		          restartRevit = true;
-	     	    }
-	         }
+                if (setting == TaskDialogResult.Yes && ForceCheckoutWorksets(true))
+                {
+                  restartRevit = true;
+                }
+             }
          }
          if (restartRevit)
          {
              MessageBox.Show("Updated " + Environment.NewLine + _settingsFileName + Environment.NewLine +
                             "You must restart Revit to continue.", "Restart Revit.");        
          }
-	     return restartRevit;
+         return restartRevit;
       }
 	    
       /// <summary>
@@ -312,13 +312,13 @@ namespace Utilities
                	  }
                   if (line.Contains("IN SILENT MODE"))
                   {
-                  	 silentLine = line;
+                     silentLine = line;
                      silent = true;
                	     break;
                   }
                   if (line.Contains("ERROR"))
                   {
-                  	 errorMsg += line + "\r\n";
+                     errorMsg += line + "\r\n";
                   }
                }
             }
@@ -333,7 +333,7 @@ namespace Utilities
          {
             msgBoxShown = true;
             silentLine += "\r\n\r\n" + log;
-         	MessageBox.Show(silentLine, "Silent Publish Success: " + name);
+            MessageBox.Show(silentLine, "Silent Publish Success: " + name);
          }
        }
        catch (Exception ex)
