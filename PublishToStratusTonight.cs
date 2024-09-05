@@ -143,9 +143,9 @@ namespace Utilities
             {
                restartRevit = true;
             }
-	    else
-	    {
-	        var setting = TaskDialog.Show("Change Settings.json?", "The silent publish may fail by presenting you" + Environment.NewLine +
+	        else
+	        {
+	            var setting = TaskDialog.Show("Change Settings.json?", "The silent publish may fail by presenting you" + Environment.NewLine +
 						  "with dialog questions for which you won't be around to answer." + Environment.NewLine + Environment.NewLine +
 						  "To disable the Workset Checkout dialog, modify the following Stratus settings file:" + Environment.NewLine +
 						   Environment.NewLine +_settingsFileName + Environment.NewLine + Environment.NewLine +
@@ -156,18 +156,18 @@ namespace Utilities
 						   "Would you like this macro to modify your Settings.json file for you?",
 						   TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
 	
-	        if (setting == TaskDialogResult.Yes && ForceCheckoutWorksets(true))
-		{
-		   restartRevit = true;
-		}
-	     }
+	            if (setting == TaskDialogResult.Yes && ForceCheckoutWorksets(true))
+		        {
+		          restartRevit = true;
+	     	    }
+	         }
          }
          if (restartRevit)
          {
              MessageBox.Show("Updated " + Environment.NewLine + _settingsFileName + Environment.NewLine +
                             "You must restart Revit to continue.", "Restart Revit.");        
          }
-	 return restartRevit;
+	     return restartRevit;
       }
 	    
       /// <summary>
@@ -181,7 +181,7 @@ namespace Utilities
          if (_scheduler.Enabled)
          {
             var select = TaskDialog.Show("Already Scheduled to Publish", "Would you like to cancel the publish scheduled for military hour " + _hourToPublish + "?", 
-					 TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
+		                                 TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No);
             if (select == TaskDialogResult.Yes)
             {
                SetThreadExecutionState(1); // Turn off Stay Awake
@@ -190,17 +190,17 @@ namespace Utilities
             return;
          }
 	      
-	 if (AskForceCheckoutWorksets())
-	 {
+         if (AskForceCheckoutWorksets())
+         {
             return;
-	 }
+         }
 	      
          // Ask them if they really want to schedule a silent publish (show them YES and NO buttons)
          var doIt = TaskDialog.Show("Continue?", 
-				    "Before you run this Macro:\r\n" +
+                                    "Before you run this Macro:\r\n" +
                                     " 1. Log into gtpstratus.com\r\n" +
                                     " 2. Switch to the company you want to publish to\r\n" +
-                                    "    (this is only relevant if you have a Sandbox company)\r\n" +
+                                    "      (relevant if you have a Sandbox company)\r\n" +
                                     " 3. In Revit, go to the Add-Ins ribbon tab, then click\r\n" +
                                     "      Help (drop down) -> Sign Out\r\n" +
                                     " 4. In Revit, go to the Add-Ins ribbon tab, then click\r\n" +
