@@ -99,7 +99,22 @@ namespace Utilities
          }
          return false;
       }
-	    
+
+      /// <summary>
+      /// -------------------------------------------------------------
+      /// MACRO ENTRY POINT -- CAD MEP Database Config Path
+      /// -------------------------------------------------------------
+      /// </summary>
+     public void ShowCadMepDBConfigPath()
+     {
+        Document doc = ActiveUIDocument.Document;
+        var conf = FabricationConfiguration.GetFabricationConfiguration(doc);
+        var confInfo = conf.GetFabricationConfigurationInfo();
+        var confSource = FabricationConfigurationInfo.FindSourceFabricationConfiguration(confInfo);
+        var DBpath = confSource.Path.ToString();
+        TaskDialog.Show("Config Path" , DBpath.ToString());
+     }
+
       /// <summary>
       /// -------------------------------------------------------------
       /// MACRO ENTRY POINT -- search logs for last publish
