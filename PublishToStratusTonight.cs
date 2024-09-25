@@ -105,15 +105,34 @@ namespace Utilities
       /// MACRO ENTRY POINT -- CAD MEP Database Config Path
       /// -------------------------------------------------------------
       /// </summary>
-     public void ShowCadMepDBConfigPath()
-     {
-        Document doc = ActiveUIDocument.Document;
-        var conf = FabricationConfiguration.GetFabricationConfiguration(doc);
-        var confInfo = conf.GetFabricationConfigurationInfo();
-        var confSource = FabricationConfigurationInfo.FindSourceFabricationConfiguration(confInfo);
-        var DBpath = confSource.Path.ToString();
-        TaskDialog.Show("Config Path" , DBpath.ToString());
-     }
+      public void ShowCadMepDBConfigPath()
+      {
+         Document doc = ActiveUIDocument.Document;
+         var conf = FabricationConfiguration.GetFabricationConfiguration(doc);
+         if (conf == null)
+         {
+        	MessageBox.Show("GetFabricationConfiguration() failed.", "ShowCadMepDBConfigPath Macro");
+        	return;
+         }
+         var confInfo = conf.GetFabricationConfigurationInfo();
+         if (confInfo == null)
+         {
+        	MessageBox.Show("GetFabricationConfigurationInfo() failed.", "ShowCadMepDBConfigPath Macro");
+        	return;
+         }
+         var confSource = FabricationConfigurationInfo.FindSourceFabricationConfiguration(confInfo);
+         if (confSource == null)
+         {
+        	MessageBox.Show("FindSourceFabricationConfiguration() failed.", "ShowCadMepDBConfigPath Macro");
+        	return;
+         }
+         var dBpath = confSource.Path;
+         MessageBox.Show(dBpath, "Config Path");
+        
+         var logFile = System.Environment.GetEnvironmentVariable("APPDATA") + "\\GTP Software Inc\\CadMepDBPath.log";
+         System.IO.File.WriteAllText(logFile, dBpath);
+         MessageBox.Show(logFile, "Look in this log");
+      }
 
       /// <summary>
       /// -------------------------------------------------------------
